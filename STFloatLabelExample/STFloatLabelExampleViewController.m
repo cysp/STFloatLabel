@@ -5,6 +5,22 @@
 #import "STFloatLabelTextField.h"
 
 
+@interface STFirstResponderResigningView : UIView
+@end
+@implementation STFirstResponderResigningView
+- (id)initWithFrame:(CGRect)frame {
+    if ((self = [super initWithFrame:frame])) {
+        UITapGestureRecognizer * const tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognized:)];
+        [self addGestureRecognizer:tapRecognizer];
+    }
+    return self;
+}
+- (void)tapRecognized:(UITapGestureRecognizer *)recognizer {
+    [self endEditing:NO];
+}
+@end
+
+
 @interface STFloatLabelExampleViewController () <UITextFieldDelegate>
 @end
 
@@ -17,6 +33,11 @@
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
     }
     return self;
+}
+
+- (void)loadView {
+    CGRect const applicationFrame = [UIScreen mainScreen].applicationFrame;
+    self.view = [[STFirstResponderResigningView alloc] initWithFrame:applicationFrame];
 }
 
 - (void)viewDidLoad {
