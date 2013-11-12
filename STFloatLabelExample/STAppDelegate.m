@@ -22,7 +22,9 @@
 
     self.window = window;
 
-    window.tintColor = [UIColor greenColor];
+    if ([window respondsToSelector:@selector(setTintColor:)]) {
+        window.tintColor = [UIColor greenColor];
+    }
 
     return YES;
 }

@@ -11,10 +11,20 @@ static CGFloat const STFloatLabelTextFieldPlaceholderEnlargedAlpha = .5;
 static CGFloat const STFloatLabelTextFieldPlaceholderShrunkenAlpha = 1;
 
 
+static BOOL STFloatLabelTextFieldIsLegacy = NO;
+
+
 @implementation STFloatLabelTextField {
 @private
     UILabel *_placeholderLabel;
     BOOL _placeholderShrunken;
+}
+
++ (void)initialize {
+    UIDevice * const d = [UIDevice currentDevice];
+    if (d.systemVersion.floatValue < 7) {
+        STFloatLabelTextFieldIsLegacy = YES;
+    }
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -111,6 +121,9 @@ static CGFloat const STFloatLabelTextFieldPlaceholderShrunkenAlpha = 1;
     if (shrunken) {
         placeholderLabelTransform = CGAffineTransformMakeTranslation(placeholderLabelTranslationX, placeholderLabelTranslationY);
         placeholderLabelTransform = CGAffineTransformScale(placeholderLabelTransform, placeholderLabelScale, placeholderLabelScale);
+    }
+    if (STFloatLabelTextFieldIsLegacy) {
+        placeholderLabelTransform = CGAffineTransformTranslate(placeholderLabelTransform, 0, -5);
     }
     return placeholderLabelTransform;
 }
