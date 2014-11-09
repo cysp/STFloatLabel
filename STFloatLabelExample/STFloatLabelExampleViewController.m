@@ -44,9 +44,21 @@
     [super viewDidLoad];
 
     UIView * const view = self.view;
+    CGRect const bounds = view.bounds;
 
-    _textField = [[STFloatLabelTextField alloc] initWithFrame:(CGRect){ .origin = { .x = 10, .y = 30 }, .size = { .width = 100, .height = 31 } }];
-    _textField.placeholder = @"Placeholder";
+    CGRect const textFieldRect = (CGRect){
+        .origin = {
+            .x = 10,
+            .y = 100,
+        },
+        .size = {
+            .width = CGRectGetWidth(bounds) - 10 * 2,
+            .height = 41,
+        },
+    };
+    _textField = [[STFloatLabelTextField alloc] initWithFrame:textFieldRect];
+    _textField.title = @"email";
+    _textField.placeholder = @"user@example.org";
     _textField.returnKeyType = UIReturnKeyDone;
     _textField.delegate = self;
 
@@ -57,6 +69,19 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     return NO;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    u_int32_t const r = arc4random_uniform(10);
+    bool const error = r > 4;
+    bool const longerror = r > 7;
+    if (longerror) {
+        _textField.error = @"a really extraordinarily long error message";
+    } else if (error) {
+        _textField.error = @"some error message";
+    } else {
+        _textField.error = nil;
+    }
 }
 
 @end

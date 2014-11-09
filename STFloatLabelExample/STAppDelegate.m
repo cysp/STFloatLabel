@@ -17,13 +17,14 @@
     window.backgroundColor = [UIColor whiteColor];
 
     STFloatLabelExampleViewController * const vc = [[STFloatLabelExampleViewController alloc] initWithNibName:nil bundle:nil];
+    UINavigationController * const nc = [[UINavigationController alloc] initWithRootViewController:vc];
 
-    window.rootViewController = vc;
+    window.rootViewController = nc;
 
     self.window = window;
 
     if ([window respondsToSelector:@selector(setTintColor:)]) {
-        window.tintColor = [UIColor greenColor];
+        window.tintColor = [UIColor orangeColor];
     }
 
     return YES;
